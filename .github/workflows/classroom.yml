@@ -29,10 +29,20 @@ jobs:
         command: pytest test.py
         timeout: 10
         max-score: 10
+    - name: Custom Single
+      id: custom-single
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Custom Single
+        setup-command: pip install pytest
+        command: pytest test_2.py
+        timeout: 10
+        max-score: 50
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
         PY-TEST_RESULTS: "${{steps.py-test.outputs.result}}"
         CUSTOM_RESULTS: "${{steps.custom.outputs.result}}"
+        CUSTOM-SINGLE_RESULTS: "${{steps.custom-single.outputs.result}}"
       with:
-        runners: py-test,custom
+        runners: py-test,custom,custom-single
